@@ -92,3 +92,31 @@ Bold values -> Annotated any cell where p99 > 2× p95 (this signals tail latency
 
 #### State which environment has zero idle cost and explain why.
 - Lambda is the one that has exactly zero idle cost. It’s fully serverless and event-driven, so we only pay for the time our code actually runs and the number of requests. When there’s no traffic - nothing runs - so we pay nothing.
+
+
+# Assignment 6:
+
+## 1. Computed Monthly Cost
+
+**Traffic Calculation (per month / 30 days):**
+- **Peak:** 100 req/sec x 1,800 sec (30 mins) x 30 days = 5,400,000 requests/month
+- **Normal:** 5 req/sec x 19,800 sec (5.5 hrs) x 30 days = 2,970,000 requests/month
+- **Total Requests:** 8,370,000 requests/month
+
+**Lambda Cost Calculation:**
+- **Requests Cost:** 8.37 Million x $0.20 = **$1.67**
+- *Using p50 duration of ~204ms (0.204s) from Scenario B (zip, c=10).*
+- **Compute (GB-seconds):** 8,370,000 reqs x 0.204s x 0.5 GB = 853,740 GB-seconds
+- **Compute Cost:** 853,740 x $0.0000166667 = **$14.23**
+- **Total Lambda Cost: $1.67 + $14.23 = $15.90 / month**
+
+**Always-on Cost Calculations (24 hours x 30 days = 720 hours):**
+- **EC2 (t3.micro):** $0.01040/hr x 720 hrs = **$7.49 / month**
+- **Fargate (0.25 vCPU, 512MB RAM):** $0.01234/hr x 720 hrs = **$8.88 / month**
+
+| Environment | Monthly Cost |
+| :--- | :--- |
+| Lambda | $15.90 |
+| EC2 | $7.49 |
+| Fargate | $8.88 |
+
