@@ -53,3 +53,26 @@ Bold values -> Annotated any cell where p99 > 2× p95 (this signals tail latency
 
 - The server-side `query_time_ms` measures only the time spent processing the request inside the application. It does not include network delays or infrastructure overhead.
 - Client-side p50 includes additional factors such as network RTT or connection setup.
+
+
+# Assignment 4:
+
+## Table
+
+| Target | Concurrency | p50 (ms) | p95 (ms) | p99 (ms) | Max Latency (ms) |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| Lambda (zip) | 10 | 210.20 | 1983.00 | 2163.90 | 2188.20 |
+| Lambda (container) | 10 | 209.10 | 1516.70 | 1689.90 | 1706.60 |
+| EC2 | 50 | 914.90 | 1453.90 | 1810.70 | 2004.50 |
+| Fargate | 50 | 3893.10 | 4196.50 | 4581.70 | 4666.00 |
+
+## Analysis
+
+#### Explain why Lambda's burst p99 is much higher than Fargate/EC2.
+- Lambda’s higher burst p99 comes mainly from cold starts. New environments must be initialized, adding large latency. Fargate/EC2 avoid this, because the instances are already running and only queue requests
+
+#### Identify the bimodal distribution in Lambda latencies (warm cluster vs. cold-start cluster).
+- Lambda latency is bimodal: fast responses (~210 ms) from warm instances, and slow ones (~2 s) from cold starts
+
+#### State whether Lambda meets the p99 < 500ms SLO under burst. If not, explain what would need to change.
+- It does not meet the p99 < 500 ms SLO under burst
