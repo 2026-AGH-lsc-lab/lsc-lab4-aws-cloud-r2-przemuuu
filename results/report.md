@@ -76,3 +76,19 @@ Bold values -> Annotated any cell where p99 > 2× p95 (this signals tail latency
 
 #### State whether Lambda meets the p99 < 500ms SLO under burst. If not, explain what would need to change.
 - It does not meet the p99 < 500 ms SLO under burst
+
+
+# Assignment 5:
+
+## Table
+
+| Target | Configuration | Idle cost per hour | Idle cost per month (540 idle hours) |
+| :--- | :--- | :--- | :--- |
+| Lambda | 512MB RAM | $0.00000 | $0.00000 |
+| EC2 | t3.micro (on-demand) | $0.01040 | $5.6160 |
+| Fargate | 0.25 vCPU, 512MB RAM | $0.01234 | $6.6636 |
+
+## Analysis
+
+#### State which environment has zero idle cost and explain why.
+- Lambda is the one that has exactly zero idle cost. It’s fully serverless and event-driven, so we only pay for the time our code actually runs and the number of requests. When there’s no traffic - nothing runs - so we pay nothing.
